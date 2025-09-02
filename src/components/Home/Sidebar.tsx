@@ -1,4 +1,6 @@
+// Sidebar.tsx
 import { useState, useEffect } from 'react';
+import '../../index.css';
 
 interface User {
   id: number;
@@ -19,55 +21,13 @@ interface Book {
   userId: number;
 }
 
-const Sidebar = () => {
-  const [userData, setUserData] = useState<User | null>(null);
-  const [books, setBooks] = useState<Book[]>([]);
-  const [loading, setLoading] = useState(true);
+interface SidebarProps {
+  userData: User | null;
+  books: Book[];
+  loading: boolean;
+}
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          console.error("No token found");
-          return;
-        }
-
-        // Obtener datos del usuario
-        const userResponse = await fetch("http://localhost:3000/users/me", {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
-        });
-
-        if (userResponse.ok) {
-          const user = await userResponse.json();
-          setUserData(user);
-        }
-
-        // Obtener libros del usuario
-        const booksResponse = await fetch("http://localhost:3000/books/", {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
-        });
-
-        if (booksResponse.ok) {
-          const userBooks = await booksResponse.json();
-          setBooks(userBooks);
-        }
-
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, []);
+const Sidebar: React.FC<SidebarProps> = ({ userData, books, loading }) => {
 
   const getBookStats = () => {
     if (books.length === 0) {
@@ -93,174 +53,60 @@ const Sidebar = () => {
 
   if (loading) {
     return (
-      <div style={{ 
-        width: '60%', 
-        backgroundColor: 'white',
-        display: 'flex',
-        flexDirection: 'column',
-        padding: '20px'
-      }}>
-        <h1 style={{ color: '#846267' }}>Sidebar</h1>
+      <div className="sidebar-loading">
+        <h1 className="sidebar-loading-title">Sidebar</h1>
         <p>Cargando...</p>
       </div>
     );
   }
 
   return (
-    <div style={{ 
-      width: '100%', 
-      backgroundColor: 'white',
-      display: 'flex',
-      flexDirection: 'column',
-      padding: '32px',
-      gap: '40px',
-      minHeight: '100vh',
-      borderRight: '1px solid #f0f0f0'
-    }}>
-      
-      {/* Datos del usuario */}
-      <div style={{ 
-        marginTop: '40px',
-        paddingBottom: '24px',
-        borderBottom: '1px solid #f5f5f5'
-      }}>
-        <div style={{ 
-          width: '48px',
-          height: '48px',
-          backgroundColor: '#846267',
-          borderRadius: '50%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginBottom: '16px'
-        }}>
-          <span style={{ 
-            color: 'white', 
-            fontSize: '18px', 
-            fontWeight: '600' 
-          }}>
+    <div className="sidebar">
+      <div className="user-data">
+        <div className="user-avatar">
+          <span className="avatar-initials">
             {userData && userData.firstName && userData.lastName 
               ? `${userData.firstName[0]}${userData.lastName[0]}` 
               : userData?.email[0].toUpperCase() || 'U'}
           </span>
         </div>
-        <h2 style={{ 
-          color: 'black', 
-          fontSize: '20px', 
-          fontWeight: '600',
-          margin: '0 0 4px 0',
-          lineHeight: '1.2'
-        }}>
+        <h2 className="user-name">
           {userData && userData.firstName && userData.lastName 
             ? `${userData.firstName} ${userData.lastName}` 
             : userData?.email || 'Usuario'}
         </h2>
-        <p style={{ 
-          color: '#846267', 
-          fontSize: '14px',
-          margin: '0',
-          opacity: '0.8'
-        }}>
+        <p className="user-email">
           {userData?.email || 'email@ejemplo.com'}
         </p>
       </div>
 
-      {/* Estadísticas */}
-      <div style={{ 
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px'
-      }}>
-        <h3 style={{ 
-          color: 'black', 
-          fontSize: '12px',
-          fontWeight: '600',
-          margin: '0',
-          textTransform: 'uppercase',
-          letterSpacing: '0.5px',
-          opacity: '0.7'
-        }}>
-          ESTADÍSTICAS
-        </h3>
-        
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <div className="stats">
+        <h3 className="stats-title">ESTADÍSTICAS</h3>
+        <div className="stats-content">
           <div>
-            <div style={{ 
-              fontSize: '28px', 
-              fontWeight: '700', 
-              color: '#846267',
-              lineHeight: '1'
-            }}>
-              {stats.count}
-            </div>
-            <div style={{ 
-              fontSize: '13px', 
-              color: 'black',
-              opacity: '0.6',
-              marginTop: '2px'
-            }}>
-              Libros en tu colección
-            </div>
+            <div className="stat-value">{stats.count}</div>
+            <div className="stat-label">Libros en tu colección</div>
           </div>
-          
           {stats.firstBookDate && (
             <div>
-              <div style={{ 
-                fontSize: '14px', 
-                color: 'black',
-                fontWeight: '500'
-              }}>
-                {stats.firstBookDate}
-              </div>
-              <div style={{ 
-                fontSize: '12px', 
-                color: '#846267',
-                opacity: '0.7'
-              }}>
-                Primer libro añadido
-              </div>
+              <div className="stat-date">{stats.firstBookDate}</div>
+              <div className="stat-label">Primer libro añadido</div>
             </div>
           )}
-          
           {stats.lastBookDate && (
             <div>
-              <div style={{ 
-                fontSize: '14px', 
-                color: 'black',
-                fontWeight: '500'
-              }}>
-                {stats.lastBookDate}
-              </div>
-              <div style={{ 
-                fontSize: '12px', 
-                color: '#846267',
-                opacity: '0.7'
-              }}>
-                Último libro añadido
-              </div>
+              <div className="stat-date">{stats.lastBookDate}</div>
+              <div className="stat-label">Último libro añadido</div>
             </div>
           )}
         </div>
       </div>
 
-      {/* Imagen */}
-      <div style={{ 
-        marginTop: '30px',
-        marginRight: 'auto',
-        display: 'flex',
-        justifyContent: 'center'
-      }}>
+      <div className="books-image">
         <img 
           src="src\assets\books.png" 
           alt="Books"
-          style={{ 
-            width: '300px', 
-            height: '300px',
-            objectFit: 'cover',
-            borderRadius: '16px',
-            opacity: '0.9',
-            filter: 'saturate(0.8)'
-          }}
+          className="books-img"
         />
       </div>
     </div>
