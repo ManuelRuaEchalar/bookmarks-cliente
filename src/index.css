@@ -439,3 +439,54 @@ textarea:focus {
 .add-book-action-hover {
   font-weight: bold;
 }
+
+.submit-button {
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: none;
+  background-color: #94a884;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.submit-button:hover:not(.loading) {
+  background-color: #7a8e6b; /* Color oscurecido para hover */
+}
+
+.submit-button.loading {
+  background-color: #7a8e6b; /* Color más oscuro durante loading */
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.loading-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.spinner {
+  width: 1.25rem;
+  height: 1.25rem;
+  animation: spin 1s linear infinite;
+}
+
+.spinner-circle {
+  opacity: 0.25;
+}
+
+.spinner-path {
+  opacity: 0.75;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
