@@ -329,6 +329,23 @@ textarea:focus {
   min-width: 0;
 }
 
+.logout-btn {
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+  background-color: #e63946;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s ease;
+}
+
+.logout-btn:active {
+  background-color: #c53030;
+}
+
+
 .main-content {
   flex: 1;
   display: flex;

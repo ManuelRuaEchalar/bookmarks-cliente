@@ -1,6 +1,7 @@
 // Sidebar.tsx
-import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import '../../index.css';
+import { useState, useEffect } from 'react';
 
 interface User {
   id: number;
@@ -28,6 +29,12 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ userData, books, loading }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Elimina la sesión
+    navigate("/"); // Redirige a la raíz
+  };
 
   const getBookStats = () => {
     if (books.length === 0) {
@@ -78,6 +85,11 @@ const Sidebar: React.FC<SidebarProps> = ({ userData, books, loading }) => {
         <p className="user-email">
           {userData?.email || 'email@ejemplo.com'}
         </p>
+
+        {/* Botón de logout */}
+        <button className="logout-btn" onClick={handleLogout}>
+          Cerrar sesión
+        </button>
       </div>
 
       <div className="stats">
@@ -104,7 +116,7 @@ const Sidebar: React.FC<SidebarProps> = ({ userData, books, loading }) => {
 
       <div className="books-image">
         <img 
-          src="src\assets\books.png" 
+          src="src/assets/books.png" 
           alt="Books"
           className="books-img"
         />
