@@ -29,7 +29,6 @@ const Bookmark: React.FC<BookmarkProps> = ({ bookmarkId, title, link, onUpdate }
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        console.error("No token found");
         return;
       }
 
@@ -47,12 +46,37 @@ const Bookmark: React.FC<BookmarkProps> = ({ bookmarkId, title, link, onUpdate }
 
       if (response.ok) {
         setIsEditing(false);
-        onUpdate();
-      } else {
-        console.error("Error updating bookmark");
+        setTimeout(() => {
+          onUpdate();
+        }, 100);
       }
     } catch (error) {
-      console.error("Error updating bookmark:", error);
+      // Error handling without console logs
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return;
+      }
+
+      const response = await fetch(`${API_URL}/bookmarks/${bookmarkId}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (response.ok) {
+        setTimeout(() => {
+          onUpdate();
+        }, 100);
+      }
+    } catch (error) {
+      // Error handling without console logs
     }
   };
 
@@ -97,12 +121,20 @@ const Bookmark: React.FC<BookmarkProps> = ({ bookmarkId, title, link, onUpdate }
           >
             {title}
           </a>
-          <span
-            className="bookmark-change"
-            onClick={handleChange}
-          >
-            change
-          </span>
+          <div className="bookmark-controls">
+            <span
+              className="bookmark-change"
+              onClick={handleChange}
+            >
+              change
+            </span>
+            <span
+              className="bookmark-change"
+              onClick={handleDelete}
+            >
+              delete
+            </span>
+          </div>
         </>
       )}
     </div>
