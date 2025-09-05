@@ -1,7 +1,6 @@
 // Sidebar.tsx
 import { useNavigate } from "react-router-dom";
 import '../../index.css';
-import { useState, useEffect } from 'react';
 
 interface User {
   id: number;

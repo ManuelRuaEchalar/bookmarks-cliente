@@ -22,7 +22,8 @@ function SignIn() {
       navigate("/dashboard");
 
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message,);
+      console.error("Error during sign-in:", err, "additional info:", error);
     }
   };
 
