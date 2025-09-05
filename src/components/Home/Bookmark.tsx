@@ -1,6 +1,7 @@
 // src/components/Home/Bookmark.jsx
 import React, { useState } from 'react';
 import '../../index.css';
+import { API_URL } from '../../api/auth';
 
 interface BookmarkProps {
   bookmarkId: number;
@@ -32,7 +33,7 @@ const Bookmark: React.FC<BookmarkProps> = ({ bookmarkId, title, link, onUpdate }
         return;
       }
 
-      const response = await fetch(`http://localhost:3000/bookmarks/${bookmarkId}`, {
+      const response = await fetch(`${API_URL}/bookmarks/${bookmarkId}`, {
         method: "PUT",
         headers: {
           "Authorization": `Bearer ${token}`,

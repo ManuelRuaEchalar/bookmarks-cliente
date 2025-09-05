@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import Bookmark from './Bookmark'; // Import the new component
 import '../../index.css';
+import { API_URL } from '../../api/auth';
 
 // Definimos la interfaz para las props
 interface BookCardProps {
@@ -45,7 +46,7 @@ const BookCard: React.FC<BookCardProps> = ({ id, title, author, description, boo
         return;
       }
 
-      const response = await fetch(`http://localhost:3000/books/${id}`, {
+      const response = await fetch(`${API_URL}/books/${id}`, {
         method: "PUT",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -77,7 +78,7 @@ const BookCard: React.FC<BookCardProps> = ({ id, title, author, description, boo
         return;
       }
 
-      const response = await fetch(`http://localhost:3000/books/${id}`, {
+      const response = await fetch(`${API_URL}/books/${id}`, {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -103,7 +104,7 @@ const BookCard: React.FC<BookCardProps> = ({ id, title, author, description, boo
         return;
       }
 
-      const response = await fetch(`http://localhost:3000/bookmarks`, {
+      const response = await fetch(`${API_URL}/bookmarks`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}`,

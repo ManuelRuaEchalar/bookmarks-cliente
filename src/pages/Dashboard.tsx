@@ -1,5 +1,6 @@
 // Modified Dashboard.tsx
 import { useState, useEffect } from 'react';
+import { API_URL } from '../api/auth';
 import Sidebar from "../components/Home/Sidebar";
 import BookCard from "../components/Home/BookCard";
 import '../index.css';
@@ -50,7 +51,7 @@ function Dashboard() {
         return;
       }
 
-      const booksResponse = await fetch("http://localhost:3000/books/", {
+      const booksResponse = await fetch("${API_URL}/books/", {
         headers: {
           "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json"
@@ -74,7 +75,7 @@ function Dashboard() {
         return;
       }
 
-      const bookmarksResponse = await fetch("http://localhost:3000/bookmarks", {
+      const bookmarksResponse = await fetch(`${API_URL}/bookmarks`, {
         headers: {
           "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json"
@@ -101,19 +102,19 @@ function Dashboard() {
         }
 
         const [userResponse, booksResponse, bookmarksResponse] = await Promise.all([
-          fetch("http://localhost:3000/users/me", {
+          fetch(`${API_URL}/users/me`, {
             headers: {
               "Authorization": `Bearer ${token}`,
               "Content-Type": "application/json"
             }
           }),
-          fetch("http://localhost:3000/books/", {
+          fetch(`${API_URL}/books/`, {
             headers: {
               "Authorization": `Bearer ${token}`,
               "Content-Type": "application/json"
             }
           }),
-          fetch("http://localhost:3000/bookmarks", {
+          fetch(`${API_URL}/bookmarks`, {
             headers: {
               "Authorization": `Bearer ${token}`,
               "Content-Type": "application/json"
@@ -153,7 +154,7 @@ function Dashboard() {
         return;
       }
 
-      const response = await fetch("http://localhost:3000/books/", {
+      const response = await fetch(`${API_URL}/books/`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}`,
