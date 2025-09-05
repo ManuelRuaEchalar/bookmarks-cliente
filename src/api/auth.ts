@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000";
+export const API_URL = import.meta.env.VITE_API_URL;
 
 export async function signUp(userData: {
   firstName: string;
@@ -17,7 +17,7 @@ export async function signUp(userData: {
     throw new Error(errorData.message || "Error en el registro");
   }
 
-  return response.json(); // debe devolver { access_token: "..." }
+  return response.json(); 
 }
 
 export async function signIn(credentials: {
@@ -35,5 +35,5 @@ export async function signIn(credentials: {
     throw new Error(errorData.message || "Error en el login");
   }
 
-  return response.json(); // debe devolver { access_token: "..." }
+  return response.json(); 
 }
