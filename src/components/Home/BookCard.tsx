@@ -71,30 +71,38 @@ const BookCard: React.FC<BookCardProps> = ({ id, title, author, description, boo
   };
 
   const handleDelete = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.error("No token found");
-        return;
-      }
-
-      const response = await fetch(`${API_URL}/books/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
-        }
-      });
-
-      if (response.ok) {
-        onRefresh();
-      } else {
-        console.error("Error deleting book");
-      }
-    } catch (error) {
-      console.error("Error deleting book:", error);
+  try {
+    const token = localStorage.getItem("token");
+    console.log('Token:', token);
+    console.log('API_URL:', API_URL);
+    console.log('Full URL:', `${API_URL}/books/${id}`);
+    
+    if (!token) {
+      console.error("No token found");
+      return;
     }
-  };
+
+    const response = await fetch(`${API_URL}/books/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    });
+
+    console.log('Response status:', response.status);
+    console.log('Response ok:', response.ok);
+
+    if (response.ok) {
+      onRefresh();
+    } else {
+      const errorText = await response.text();
+      console.error("Error deleting book:", errorText);
+    }
+  } catch (error) {
+    console.error("Error deleting book:", error);
+  }
+};
 
   const handleAddBookmark = async () => {
     try {
