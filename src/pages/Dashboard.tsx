@@ -47,11 +47,10 @@ function Dashboard() {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        console.error("No token found");
         return;
       }
 
-      const booksResponse = await fetch("${API_URL}/books/", {
+      const booksResponse = await fetch(`${API_URL}/books/`, {
         headers: {
           "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json"
@@ -63,7 +62,7 @@ function Dashboard() {
         setBooks(userBooks);
       }
     } catch (error) {
-      console.error("Error fetching books:", error);
+      // Error handling without console logs
     }
   };
 
@@ -71,7 +70,6 @@ function Dashboard() {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        console.error("No token found");
         return;
       }
 
@@ -87,7 +85,7 @@ function Dashboard() {
         setBookmarks(userBookmarks);
       }
     } catch (error) {
-      console.error("Error fetching bookmarks:", error);
+      // Error handling without console logs
     }
   };
 
@@ -97,7 +95,7 @@ function Dashboard() {
       try {
         const token = localStorage.getItem("token");
         if (!token) {
-          console.error("No token found");
+          setLoading(false);
           return;
         }
 
@@ -137,7 +135,7 @@ function Dashboard() {
           setBookmarks(userBookmarks);
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        // Error handling without console logs
       } finally {
         setLoading(false);
       }
@@ -147,10 +145,13 @@ function Dashboard() {
   }, []);
 
   const handleAddBook = async () => {
+    if (!newTitle.trim() || !newAuthor.trim() || !newDescription.trim()) {
+      return;
+    }
+
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        console.error("No token found");
         return;
       }
 
@@ -171,18 +172,17 @@ function Dashboard() {
         setNewTitle('');
         setNewAuthor('');
         setNewDescription('');
-        fetchBooks();
-      } else {
-        console.error("Error adding book");
+        setTimeout(() => {
+          refreshData();
+        }, 100);
       }
     } catch (error) {
-      console.error("Error adding book:", error);
+      // Error handling without console logs
     }
   };
 
-  const refreshData = () => {
-    fetchBooks();
-    fetchBookmarks();
+  const refreshData = async () => {
+    await Promise.all([fetchBooks(), fetchBookmarks()]);
   };
 
   return (

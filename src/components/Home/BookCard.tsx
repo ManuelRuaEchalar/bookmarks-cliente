@@ -1,6 +1,6 @@
 // Modified src/components/Home/BookCard.jsx
 import React, { useState } from 'react';
-import Bookmark from './Bookmark'; // Import the new component
+import Bookmark from './Bookmark';
 import '../../index.css';
 import { API_URL } from '../../api/auth';
 
@@ -42,7 +42,6 @@ const BookCard: React.FC<BookCardProps> = ({ id, title, author, description, boo
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        console.error("No token found");
         return;
       }
 
@@ -61,54 +60,45 @@ const BookCard: React.FC<BookCardProps> = ({ id, title, author, description, boo
 
       if (response.ok) {
         setIsEditing(false);
-        onRefresh();
-      } else {
-        console.error("Error updating book");
+        setTimeout(() => {
+          onRefresh();
+        }, 100);
       }
     } catch (error) {
-      console.error("Error updating book:", error);
+      // Error handling without console logs
     }
   };
 
   const handleDelete = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    console.log('Token:', token);
-    console.log('API_URL:', API_URL);
-    console.log('Full URL:', `${API_URL}/books/${id}`);
-    
-    if (!token) {
-      console.error("No token found");
-      return;
-    }
-
-    const response = await fetch(`${API_URL}/books/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json"
+    try {
+      const token = localStorage.getItem("token");
+      
+      if (!token) {
+        return;
       }
-    });
 
-    console.log('Response status:', response.status);
-    console.log('Response ok:', response.ok);
+      const response = await fetch(`${API_URL}/books/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
 
-    if (response.ok) {
-      onRefresh();
-    } else {
-      const errorText = await response.text();
-      console.error("Error deleting book:", errorText);
+      if (response.ok) {
+        setTimeout(() => {
+          onRefresh();
+        }, 100);
+      }
+    } catch (error) {
+      // Error handling without console logs
     }
-  } catch (error) {
-    console.error("Error deleting book:", error);
-  }
-};
+  };
 
   const handleAddBookmark = async () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        console.error("No token found");
         return;
       }
 
@@ -129,12 +119,12 @@ const BookCard: React.FC<BookCardProps> = ({ id, title, author, description, boo
         setIsAddingBookmark(false);
         setNewBookmarkTitle('');
         setNewBookmarkLink('');
-        onRefresh();
-      } else {
-        console.error("Error adding bookmark");
+        setTimeout(() => {
+          onRefresh();
+        }, 100);
       }
     } catch (error) {
-      console.error("Error adding bookmark:", error);
+      // Error handling without console logs
     }
   };
 
