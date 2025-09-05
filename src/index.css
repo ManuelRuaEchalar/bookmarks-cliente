@@ -311,6 +311,44 @@ textarea:focus {
   filter: saturate(0.8);
 }
 
+/* RESPONSIVE - OCULTAR SIDEBAR EN MÓVILES */
+/* Ocultar sidebar en pantallas menores a 768px (móviles) */
+@media (max-width: 767px) {
+  .sidebar-container {
+    display: none !important;
+  }
+  
+  .sidebar-loading {
+    display: none !important;
+  }
+}
+
+/* Ajustar el main-content cuando no hay sidebar en móvil */
+@media (max-width: 767px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+  
+  .main-content {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+}
+
+/* Para pantallas grandes (768px en adelante) */
+@media (min-width: 768px) {
+  .sidebar-container {
+    display: flex;
+    width: 320px;
+    min-width: 320px;
+  }
+  
+  .main-content {
+    flex: 1;
+    margin-left: 0;
+  }
+}
+
 /* DASHBOARD STYLES */
 
 .dashboard-container {
