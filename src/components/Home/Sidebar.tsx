@@ -115,7 +115,7 @@ const Sidebar: React.FC<SidebarProps> = ({ userData, books, loading }) => {
 
       <div className="books-image">
         <img 
-          src="..\..\..\public\books.png" 
+          src="/books.png" 
           alt="Books"
           className="books-img"
         />
