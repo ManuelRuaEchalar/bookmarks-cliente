@@ -17,7 +17,6 @@ function SignIn() {
       });
 
       localStorage.setItem("token", result.access_token);
-      console.log("Token guardado:", result.access_token);
 
       navigate("/dashboard");
 
